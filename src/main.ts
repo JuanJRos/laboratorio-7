@@ -1,77 +1,55 @@
 import "./style.css";
 
-//Declaramos las variables de los distintos géneros
-const popRock = "🎵 Pop Rock";
-const rock = "🎸 Rock";
-const hardRock = "🤘 Hard Rock";
-const clasica = "🎼 Clásica";
+//Delcaro la variable para el turno
+let turno = 0;
 
-//Declaramos el estilo en un variable para facilitar el uso
-const estiloTexto = "background: green; font-size: 25px; font-weight: bold; ";
-interface Grupo {
-    nombre: string;
-    añoFundacion: number;
-    activo: boolean;
-    genero: string;
+
+//Muestro por pantalla
+function mostrar(): void{
+    const turnoActual = document.getElementById("mostrar-numero");
+    if (turnoActual !==null && turnoActual !== undefined){
+        turnoActual.innerHTML = turno.toString().padStart(2, '0');
+    }
 }
 
-const grupoA: Grupo = {
-    nombre: "The Beattles",
-    añoFundacion: 1960,
-    activo: false,
-    genero: popRock,
-};
+//Declaro la función para cambiar el turno
+function cambiarTurno(nuevoTurno:number): void {
+    //Con esto compruebo que no se pueda bajar del turno 00
+    if(nuevoTurno>=0)
+        turno = nuevoTurno;
 
-const grupoB: Grupo = {
-    nombre: "Queen",
-    añoFundacion: 1970,
-    activo: false,
-    genero: rock,
-};
+    mostrar();
+}
 
-const grupoC: Grupo = {
-    nombre: "AC DC",
-    añoFundacion: 1673,
-    activo: true,
-    genero: hardRock,
-};
+//Función para añadir turno manualmente
+function añadirTurno(): void{
+    const turnoManual = parseInt((document.getElementById("turno-manual") as HTMLInputElement).value);
+    
+    if(turnoManual !== null && turnoManual !== undefined){
+        if (!isNaN(turnoManual)){
+            turno = turnoManual;
+           mostrar(); 
+        }
+    }
+}
 
-const grupoD: Grupo = {
-    nombre: "Ludwig van Beethoven",
-    añoFundacion: 1770,
-    activo: false,
-    genero: clasica,
-};
+//Obtengo la pulsacion del botón
+const anterior = document.getElementById("boton-anterior");
+const siguiente = document.getElementById("boton-siguiente");
+const reset = document.getElementById("boton-reset");
+const añadir = document.getElementById("boton-añadir");
 
-const grupoE: Grupo = {
-    nombre: "The Rolling Stones",
-    añoFundacion: 1962,
-    activo: true,
-    genero: rock,
-};
+if(anterior!==null && anterior !==undefined){
+    anterior.addEventListener("click", () => cambiarTurno(turno-1));
+}
+if(siguiente !== null && siguiente !==undefined){
+    siguiente.addEventListener("click", () => cambiarTurno(turno+1));
+}
 
-console.log(`%c ${grupoA.nombre} `, estiloTexto);
-console.log(`Fundado en el año: ${grupoA.añoFundacion} `);
-console.log(`El grupo esta en activo: ${grupoA.activo} `);
-console.log(`Género musical: ${grupoA.genero} `);
-console.log("-----------------------------");
-console.log(`%c ${grupoB.nombre} `, estiloTexto);
-console.log(`Fundado en el año: ${grupoB.añoFundacion} `);
-console.log(`El grupo esta en activo: ${grupoB.activo} `);
-console.log(`Género musical: ${grupoB.genero} `);
-console.log("-----------------------------");
-console.log(`%c ${grupoC.nombre} `, estiloTexto);
-console.log(`Fundado en el año: ${grupoC.añoFundacion} `);
-console.log(`El grupo esta en activo: ${grupoC.activo} `);
-console.log(`Género musical: ${grupoC.genero} `);
-console.log("-----------------------------");
-console.log(`%c ${grupoD.nombre} `, estiloTexto);
-console.log(`Fundado en el año: ${grupoD.añoFundacion} `);
-console.log(`El grupo esta en activo: ${grupoD.activo} `);
-console.log(`Género musical: ${grupoD.genero} `);
-console.log("-----------------------------");
-console.log(`%c ${grupoE.nombre} `, estiloTexto);
-console.log(`Fundado en el año: ${grupoE.añoFundacion} `);
-console.log(`El grupo esta en activo: ${grupoE.activo} `);
-console.log(`Género musical: ${grupoE.genero} `);
-console.log("-----------------------------");
+if(reset!==null && reset !==undefined){
+    reset.addEventListener("click", () => cambiarTurno(0));
+}
+
+if(añadir!==null && añadir !==undefined){
+    añadir.addEventListener("click", () => añadirTurno());
+}

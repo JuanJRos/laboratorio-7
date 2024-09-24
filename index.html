@@ -9,8 +9,17 @@
   </head>
   <body>
     <div class="turno-display">
-      <h1 class="numero-turno">01</h1>
+      <h1 class="numero-turno" id="mostrar-numero">01</h1>
       <p class="texto-turno">Por favor, acérquese al mostrador</p>
+      <div>
+        <button id="boton-anterior" >Turno Anterior</button>
+        <button id="boton-siguiente" >Siguiente Turno</button>
+        <button id="boton-reset">Resetear</button>
+      </div>
+      <div>
+        <input id = "turno-manual" type="number">
+        <button id="boton-añadir">Añadir Turno</button>
+      </div>    
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
