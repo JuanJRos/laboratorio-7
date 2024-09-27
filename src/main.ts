@@ -113,5 +113,25 @@ function obtenDiseño(numeroCarta : number) : string{
 }
     /*| "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg"*/
 
+const boton = document.getElementById("boton-siguiente");
+
+
+function mostrarPrueba(): void {
+    const texto = document.getElementById("prueba");
+    let mensaje ="entra";
+    if(texto != null && texto != undefined && texto instanceof HTMLElement){
+        console.log("entra2");
+        const url = obtenDiseño(dameNumeroCarta());
+        mensaje = `${url} con puntuacion ${puntuacion}`;
+        
+        texto.innerHTML = mensaje;
+    }
+}
+
+if(boton != null && boton != undefined && boton instanceof HTMLButtonElement){
+    boton.addEventListener("click", () => mostrarPrueba());
+    
+}
+
 
 console.log(obtenDiseño(dameNumeroCarta()) +", "+puntuacion);
