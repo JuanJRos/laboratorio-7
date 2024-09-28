@@ -69,10 +69,12 @@ function sumaPuntuacion(valorCarta : number) : void{
     if(puntuacion<7.5)
         console.log(puntuacion);
     else{
-        console.log("TE HAS PASADO");
+        console.log(mensajeUsuario());
+        escribeMensaje(mensajeUsuario());
         gestionDar(true);
         gestionPlantar(true);
     }
+
 }
 
 //Función para conseguir la url dado el número de carta y su valor
@@ -123,6 +125,30 @@ function obtenDiseño(numeroCarta : number) : string{
     return urlDiseño;
 }
 
+//Función que devuelve un mensaje con respecto a la puntuación
+function mensajeUsuario(): string{
+    let texto = "";
+    
+    if(puntuacion<=4){
+        texto = "Has sido muy conservador!!"
+    }else{
+        if(puntuacion===5){
+            texto = "Te ha entrado el canguelo eh!!"
+        }else{
+            if(puntuacion>=6 && puntuacion<=7){
+                texto = "Casi, casi..!!!"
+            }else{
+                if(puntuacion===7.5){
+                    texto = "¡Lo has clavado!¡Enhorabuena!"
+                }else{
+                    texto = "Te has pasado, Game Over!!"
+                }
+            }
+        }
+    }
+    return texto;
+}
+
 //Función para mostar la carta en el div
 function mostrarCarta(urlCarta: string): void {
     const texto = document.getElementById("diseño-carta");
@@ -151,6 +177,11 @@ function gestionDar(situacion: boolean):void{
         operacion.disabled = situacion;
 }
 
+function escribeMensaje(mensaje : string){
+    const textoPantalla = document.getElementById("prueba");
+    if(textoPantalla != null && textoPantalla != undefined && textoPantalla instanceof HTMLElement)
+        textoPantalla.innerHTML = mensaje;
+}
 
 const botonNuevo = document.getElementById("boton-nuevo")
 const botonDame = document.getElementById("boton-dame");
@@ -159,7 +190,8 @@ const botonPlantar = document.getElementById("boton-plantar");
 if(botonNuevo != null && botonNuevo != undefined && botonNuevo instanceof HTMLButtonElement){
     botonNuevo.addEventListener("click", () => {juegoNuevo(), 
                                                 gestionPlantar(false),
-                                                gestionDar(false)});
+                                                gestionDar(false),
+                                                escribeMensaje("")});
 }
 
 if(botonDame != null && botonDame != undefined && botonDame instanceof HTMLButtonElement){
@@ -167,5 +199,7 @@ if(botonDame != null && botonDame != undefined && botonDame instanceof HTMLButto
 }
 
 if(botonPlantar != null && botonPlantar != undefined && botonPlantar instanceof HTMLButtonElement){
-    botonPlantar.addEventListener("click", () => {gestionPlantar(true), gestionDar(true)});
+    botonPlantar.addEventListener("click", () => {gestionPlantar(true), 
+                                                gestionDar(true),
+                                                mensajeUsuario()});
 }
