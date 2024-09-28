@@ -6,6 +6,10 @@ interface Carta {
     valor: number;
 }
 //Creo una constante para cada carta con su url y el valor
+const cartaDorso ={
+    url: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg",
+    valor: 0
+};
 const cartaAs: Carta = {
     url: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg",
     valor: 1
@@ -59,9 +63,16 @@ function dameNumeroCarta() : number{
         return numeroCarta; 
 }
 
+//Función para sumar la puntuación y comprobar si se ha pasado 
 function sumaPuntuacion(valorCarta : number) : void{
-    puntuacion = puntuacion +valorCarta;
-
+    puntuacion += valorCarta;
+    if(puntuacion<7.5)
+        console.log(puntuacion);
+    else{
+        console.log("TE HAS PASADO");
+        gestionDar(true);
+        gestionPlantar(true);
+    }
 }
 
 //Función para conseguir la url dado el número de carta y su valor
@@ -111,27 +122,50 @@ function obtenDiseño(numeroCarta : number) : string{
     }
     return urlDiseño;
 }
-    /*| "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg"*/
 
-const boton = document.getElementById("boton-siguiente");
-
-
-function mostrarPrueba(): void {
-    const texto = document.getElementById("prueba");
-    let mensaje ="entra";
-    if(texto != null && texto != undefined && texto instanceof HTMLElement){
-        console.log("entra2");
-        const url = obtenDiseño(dameNumeroCarta());
-        mensaje = `${url} con puntuacion ${puntuacion}`;
-        
-        texto.innerHTML = mensaje;
+//Función para mostar la carta en el div
+function mostrarCarta(urlCarta: string): void {
+    const texto = document.getElementById("diseño-carta");
+    if(texto != null && texto != undefined && texto instanceof HTMLImageElement){
+        texto.src = urlCarta;
     }
 }
 
-if(boton != null && boton != undefined && boton instanceof HTMLButtonElement){
-    boton.addEventListener("click", () => mostrarPrueba());
-    
+//Función para iniciar una partida
+function juegoNuevo(): void{
+    puntuacion = cartaDorso.valor;
+    mostrarCarta(cartaDorso.url);
+}
+
+//Función para activar o desactivar el boton plantar
+function gestionPlantar(situacion: boolean):void{
+    const operacion = document.getElementById("boton-plantar");
+    if(operacion != null && operacion != undefined && operacion instanceof HTMLButtonElement)
+        operacion.disabled = situacion;
+}
+
+//Función para activar o desactivar el boton dame
+function gestionDar(situacion: boolean):void{
+    const operacion = document.getElementById("boton-dame");
+    if(operacion != null && operacion != undefined && operacion instanceof HTMLButtonElement)
+        operacion.disabled = situacion;
 }
 
 
-console.log(obtenDiseño(dameNumeroCarta()) +", "+puntuacion);
+const botonNuevo = document.getElementById("boton-nuevo")
+const botonDame = document.getElementById("boton-dame");
+const botonPlantar = document.getElementById("boton-plantar");
+
+if(botonNuevo != null && botonNuevo != undefined && botonNuevo instanceof HTMLButtonElement){
+    botonNuevo.addEventListener("click", () => {juegoNuevo(), 
+                                                gestionPlantar(false),
+                                                gestionDar(false)});
+}
+
+if(botonDame != null && botonDame != undefined && botonDame instanceof HTMLButtonElement){
+    botonDame.addEventListener("click", () => mostrarCarta(obtenDiseño(dameNumeroCarta())));
+}
+
+if(botonPlantar != null && botonPlantar != undefined && botonPlantar instanceof HTMLButtonElement){
+    botonPlantar.addEventListener("click", () => {gestionPlantar(true), gestionDar(true)});
+}
