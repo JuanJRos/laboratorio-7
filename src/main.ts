@@ -66,15 +66,18 @@ function dameNumeroCarta() : number{
 //Función para sumar la puntuación y comprobar si se ha pasado 
 function sumaPuntuacion(valorCarta : number) : void{
     puntuacion += valorCarta;
-    if(puntuacion<7.5)
-        console.log(puntuacion);
-    else{
-        console.log(mensajeUsuario());
+    escribePuntuacion(`Puntuación: ${puntuacion}`);
+    if(puntuacion===7.5){
         escribeMensaje(mensajeUsuario());
         gestionDar(true);
         gestionPlantar(true);
+    }else{
+        if(puntuacion>7.5){
+            escribeMensaje(mensajeUsuario());
+            gestionDar(true);
+            gestionPlantar(true);
+        }
     }
-
 }
 
 //Función para conseguir la url dado el número de carta y su valor
@@ -128,7 +131,6 @@ function obtenDiseño(numeroCarta : number) : string{
 //Función que devuelve un mensaje con respecto a la puntuación
 function mensajeUsuario(): string{
     let texto = "";
-    
     if(puntuacion<=4){
         texto = "Has sido muy conservador!!"
     }else{
@@ -183,6 +185,12 @@ function escribeMensaje(mensaje : string){
         textoPantalla.innerHTML = mensaje;
 }
 
+function escribePuntuacion(mensaje : string){
+    const textoPuntuacion = document.getElementById("texto-puntuacion");
+    if(textoPuntuacion != null && textoPuntuacion != undefined && textoPuntuacion instanceof HTMLElement)
+        textoPuntuacion.innerHTML = mensaje;
+}
+
 const botonNuevo = document.getElementById("boton-nuevo")
 const botonDame = document.getElementById("boton-dame");
 const botonPlantar = document.getElementById("boton-plantar");
@@ -191,7 +199,8 @@ if(botonNuevo != null && botonNuevo != undefined && botonNuevo instanceof HTMLBu
     botonNuevo.addEventListener("click", () => {juegoNuevo(), 
                                                 gestionPlantar(false),
                                                 gestionDar(false),
-                                                escribeMensaje("")});
+                                                escribeMensaje(""),
+                                                escribePuntuacion("Puntuación: 0")});
 }
 
 if(botonDame != null && botonDame != undefined && botonDame instanceof HTMLButtonElement){
@@ -201,5 +210,5 @@ if(botonDame != null && botonDame != undefined && botonDame instanceof HTMLButto
 if(botonPlantar != null && botonPlantar != undefined && botonPlantar instanceof HTMLButtonElement){
     botonPlantar.addEventListener("click", () => {gestionPlantar(true), 
                                                 gestionDar(true),
-                                                mensajeUsuario()});
+                                                escribeMensaje(mensajeUsuario())});
 }
