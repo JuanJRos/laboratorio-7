@@ -70,12 +70,14 @@ function sumaPuntuacion(valorCarta : number) : void{
     if(puntuacion===7.5){
         escribeMensaje(mensajeUsuario());
         gestionDar(true);
-        gestionPlantar(true);
+        gestionPlantar(false);
     }else{
         if(puntuacion>7.5){
             escribeMensaje(mensajeUsuario());
             gestionDar(true);
             gestionPlantar(true);
+        }else{
+            gestionPlantar(false);
         }
     }
 }
@@ -194,10 +196,10 @@ function escribePuntuacion(mensaje : string){
 }
 
 //Función para activar desactivar boton
-function botonQuePasaria(estado : string): void{
+function botonQuePasaria(estado : boolean): void{
     const botonPrueba = document.getElementById("boton-probar");
     if(botonPrueba != null && botonPrueba != undefined && botonPrueba instanceof HTMLButtonElement){
-        botonPrueba.style.display = estado;
+        botonPrueba.disabled = estado;
     }
 }
 
@@ -208,11 +210,11 @@ const botonPrueba = document.getElementById("boton-probar");
 
 if(botonNuevo != null && botonNuevo != undefined && botonNuevo instanceof HTMLButtonElement){
     botonNuevo.addEventListener("click", () => {juegoNuevo(), 
-                                                gestionPlantar(false),
+                                                gestionPlantar(true),
                                                 gestionDar(false),
                                                 escribeMensaje(""),
                                                 escribePuntuacion("Puntuación: 0"),
-                                                botonQuePasaria("none")});
+                                                botonQuePasaria(true)});
 }
 
 if(botonDame != null && botonDame != undefined && botonDame instanceof HTMLButtonElement){
@@ -223,10 +225,11 @@ if(botonPlantar != null && botonPlantar != undefined && botonPlantar instanceof 
     botonPlantar.addEventListener("click", () => {gestionPlantar(true), 
                                                 gestionDar(true),
                                                 escribeMensaje(mensajeUsuario()),
-                                                botonQuePasaria("block")});
+                                                botonQuePasaria(false)});
 }
 
 if(botonPrueba != null && botonPrueba != undefined && botonPrueba instanceof HTMLButtonElement){
     botonPrueba.addEventListener("click", () => {mostrarCarta(obtenDiseño(dameNumeroCarta())),
-                                                botonQuePasaria("none")});
+                                                botonQuePasaria(true),
+                                                gestionPlantar(true)});
 }
