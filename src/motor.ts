@@ -65,7 +65,7 @@ export function obtenDiseño(numeroCarta : number) : void{
 //Función que devuelve un mensaje con respecto a la puntuación
 export function mensajeUsuario(): string{
     let texto = "";
-    if(partida.puntuacion<=4.5){
+    if(partida.puntuacion<= 4.5){
         texto = "Has sido muy conservador!!"
     }else{
         if(partida.puntuacion===5 || partida.puntuacion < 6){
